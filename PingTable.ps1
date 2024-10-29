@@ -23,8 +23,8 @@ if (-not (Test-Path -Path $ResultDirectory) -and $WriteToFile) {
 while (1) {
     foreach ($Address in $Addresses) {
         $Result = Test-Address $Address
-        $WriteLocation = Join-Path -Path $ResultDirectory -ChildPath $Address
         if ($WriteToFile) {
+            $WriteLocation = Join-Path -Path $ResultDirectory -ChildPath $Address -
             $Result | ConvertTo-CSv -NoHeader >> $WriteLocation
         } else {
             $Result | ConvertTo-CSv -NoHeader
