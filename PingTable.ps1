@@ -1,6 +1,9 @@
-$Addresses = @("1.1.1.1", "localhost")
-$WriteToFile = $true
-$ResultDirectory = ".\Results"
+param (
+[string[]]$Addresses = @("1.1.1.1", "localhost"),
+[bool]$WriteToFile = $true,
+[string]$ResultDirectory = ".\Results",
+[int]$SleepTime = 5
+)
 
 function Test-Address {
     param (
@@ -13,10 +16,19 @@ function Test-Address {
     $Result
 }
 
+if (-not (Test-Path -Path $ResultDirectory) -and $WriteToFile) {
+    New-Item -Path $ResultDirectory -ItemType Directory
+}
+
 while (1) {
     foreach ($Address in $Addresses) {
         $Result = Test-Address $Address
         $WriteLocation = Join-Path -Path $ResultDirectory -ChildPath $Address
-        $Result | ConvertTo-CSv -NoHeader >> $WriteLocation
+        if ($WriteToFile) {
+            $Result | ConvertTo-CSv -NoHeader >> $WriteLocation
+        } else {
+            $Result | ConvertTo-CSv -NoHeader
+        }
     }
+    Start-Sleep -Seconds $SleepTime
 }
