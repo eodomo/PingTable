@@ -41,7 +41,7 @@ while (1) {
         Start-Job -ScriptBlock $cmd -ArgumentList $Address, $WriteToFile, $ResultDirectory -Name $Address > $null
     }
     # Wait for all jobs to finish
-    Get-Job | Wait-Job > $null
+    #Get-Job | Wait-Job > $null
     if (-not($WriteToFile)) {
         foreach ($job in Get-Job) {
             $output = Receive-Job -Job $job
