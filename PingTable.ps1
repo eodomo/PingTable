@@ -20,11 +20,12 @@ $cmd = {
     }
 
     $Result = Test-Address $Address
+    $ResultOutput = "$($Result.Date), $($Result.Success), $($Result.ReplyTime), $($Result.Address)"
     if ($WriteToFile) {
         $WriteLocation = Join-Path -Path $ResultDirectory -ChildPath "$Address.csv"
-        $Result | ConvertTo-CSv -NoHeader >> $WriteLocation
+        $ResultOutput >> $WriteLocation
     } else {
-        $Result | ConvertTo-CSv -NoHeader
+        $ResultOutput
     }
 }
 
